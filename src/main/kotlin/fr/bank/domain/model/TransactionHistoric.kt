@@ -6,5 +6,5 @@ data class TransactionHistoric(
     val amount: Amount,
     val date: LocalDate = LocalDate.now(),
     val balance: Balance,
-    val operationType: OperationEnum
+    val operationType: OperationEnum,
 )

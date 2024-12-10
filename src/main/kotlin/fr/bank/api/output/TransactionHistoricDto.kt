@@ -8,7 +8,7 @@ data class TransactionHistoricDto(
     val amount: AmountDto,
     val date: String,
     val balance: BalanceDto,
-    val operationType: OperationEnum
+    val operationType: OperationEnum,
 )
 
 @Serializable

@@ -5,13 +5,17 @@ import fr.bank.domain.model.BankAccount
 import fr.bank.domain.repository.BankAccountRepository
 
 class InMemoryBankAccountRepository : BankAccountRepository {
-    //private val accounts = emptyList<BankAccount>().toMutableList()
-    private val bankAccountInMemory = BankAccount(
-        accountNumber = "1",
-        balance = Balance(
-            value = 100.0)
-    )
+    // private val accounts = emptyList<BankAccount>().toMutableList()
+    private val bankAccountInMemory =
+        BankAccount(
+            accountNumber = "1",
+            balance =
+                Balance(
+                    value = 100.0,
+                ),
+        )
     private val accounts = mutableListOf(bankAccountInMemory)
+
     override fun save(bankAccount: BankAccount): BankAccount {
         val existingAccountIndex = accounts.indexOfFirst { it.accountNumber == bankAccount.accountNumber }
 
@@ -32,4 +36,8 @@ class InMemoryBankAccountRepository : BankAccountRepository {
         accounts.add(bankAccount)
     }
 
+    override fun clear() {
+        accounts.clear()
+        accounts.add(bankAccountInMemory)
+    }
 }

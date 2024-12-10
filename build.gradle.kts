@@ -1,12 +1,22 @@
 plugins {
     kotlin("jvm") version "2.0.20"
     kotlin("plugin.serialization") version "2.0.20"
+    id("org.jlleitschuh.gradle.ktlint") version "12.1.2"
     id("io.ktor.plugin") version "2.3.12"
     application
 }
 
 application {
     mainClass.set("fr.bank.MainKt")
+}
+
+ktlint {
+    debug.set(false)
+    verbose.set(true)
+    android.set(false)
+    outputToConsole.set(true)
+    coloredOutput.set(true)
+    ignoreFailures.set(false)
 }
 
 tasks.test {
@@ -19,6 +29,7 @@ val logbackVersion: String by project
 val koinVersion: String by project
 val cucumberVersion: String by project
 val junitVersion: String by project
+val kotlinSerializationVersion: String by project
 
 group = "fr.bank"
 version = "1.0-SNAPSHOT"
@@ -35,7 +46,13 @@ tasks.register<JavaExec>("cucumber") {
     dependsOn("assemble", "compileTestKotlin")
     classpath = sourceSets["test"].runtimeClasspath + cucumberRuntime
     mainClass.set("io.cucumber.core.cli.Main")
-    args = listOf("--plugin", "pretty", "--glue", "fr.bank.steps", "src/test/resources/features")
+    args =
+        listOf(
+            "--plugin", "pretty",
+            "--glue", "fr.bank.steps",
+            "--glue", "fr.bank.steps.configuration",
+            "src/test/resources/features",
+        )
 }
 
 dependencies {
@@ -53,8 +70,8 @@ dependencies {
     implementation("io.insert-koin:koin-ktor:$koinVersion")
     implementation("io.insert-koin:koin-test:$koinVersion")
 
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.6.3")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:$kotlinSerializationVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinSerializationVersion")
 
     implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
     implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
@@ -68,7 +85,7 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
     testImplementation("io.mockk:mockk:1.13.7")
 
-    //Junit
+    // Junit
     testImplementation("io.kotest:kotest-runner-junit5-jvm:$junitVersion")
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitVersion")

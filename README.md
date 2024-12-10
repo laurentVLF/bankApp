@@ -41,6 +41,12 @@ It also applies the principles of Domain-Driven Design (DDD) for the project arc
 2. Installing dependencies :
    ./gradlew build
 
+## Check code style errors
+./gradlew ktlintCheck
+
+## Fix code style errors
+./gradlew ktlintFormat
+
 ## Running project
 
 ./gradlew run
