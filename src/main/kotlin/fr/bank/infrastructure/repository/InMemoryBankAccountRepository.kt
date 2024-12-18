@@ -1,19 +1,11 @@
 package fr.bank.infrastructure.repository
 
-import fr.bank.domain.model.Balance
 import fr.bank.domain.model.BankAccount
 import fr.bank.domain.repository.BankAccountRepository
 
 class InMemoryBankAccountRepository : BankAccountRepository {
     // private val accounts = emptyList<BankAccount>().toMutableList()
-    private val bankAccountInMemory =
-        BankAccount(
-            accountNumber = "1",
-            balance =
-                Balance(
-                    value = 100.0,
-                ),
-        )
+    private val bankAccountInMemory = BankAccount(accountNumber = "1")
     private val accounts = mutableListOf(bankAccountInMemory)
 
     override fun save(bankAccount: BankAccount): BankAccount {

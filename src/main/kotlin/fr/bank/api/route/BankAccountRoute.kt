@@ -8,7 +8,7 @@ import fr.bank.api.output.TransactionHistoricDto
 import fr.bank.api.output.TransactionHistoricResponse
 import fr.bank.domain.model.Amount
 import fr.bank.domain.model.Balance
-import fr.bank.domain.model.TransactionHistoric
+import fr.bank.domain.model.TransactionHistory
 import fr.bank.domain.model.output.DepositResult
 import fr.bank.domain.model.output.TransactionHistoricResult
 import fr.bank.domain.model.output.WithdrawResult
@@ -104,7 +104,7 @@ fun Route.bankAccountRoute() {
     }
 }
 
-fun List<TransactionHistoric>.toDto(): List<TransactionHistoricDto> =
+fun List<TransactionHistory>.toDto(): List<TransactionHistoricDto> =
     this.map {
         TransactionHistoricDto(
             amount = it.amount.toDto(),

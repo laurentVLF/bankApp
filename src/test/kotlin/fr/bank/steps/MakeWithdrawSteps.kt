@@ -1,8 +1,8 @@
 package fr.bank.steps
 
 import fr.bank.api.input.WithdrawRequest
-import fr.bank.domain.model.Balance
-import fr.bank.domain.model.BankAccount
+import fr.bank.domain.model.Amount
+import fr.bank.domain.model.BankAccountBuilder
 import fr.bank.domain.model.OperationEnum
 import fr.bank.domain.repository.BankAccountRepository
 import fr.bank.infrastructure.repository.InMemoryBankAccountRepository
@@ -24,8 +24,9 @@ class MakeWithdrawSteps : KoinTest, En {
 
     init {
         Before { _ ->
+            val bankAccount = BankAccountBuilder().accountNumber(accountNumber = "3").buildWithAddAmount(amount = Amount(value = 100.0))
             repository = KoinJavaComponent.getKoin().get<BankAccountRepository>() as InMemoryBankAccountRepository
-            repository.addAccount(BankAccount(accountNumber = "3", balance = Balance(value = 100.0)))
+            repository.addAccount(bankAccount = bankAccount)
         }
         After { _ ->
             repository.clear()

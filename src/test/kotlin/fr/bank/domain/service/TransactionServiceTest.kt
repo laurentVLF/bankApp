@@ -3,8 +3,8 @@ package fr.bank.domain.service
 import fr.bank.api.input.DepositRequest
 import fr.bank.api.input.WithdrawRequest
 import fr.bank.domain.model.Amount
-import fr.bank.domain.model.Balance
 import fr.bank.domain.model.BankAccount
+import fr.bank.domain.model.BankAccountBuilder
 import fr.bank.domain.model.output.DepositResult
 import fr.bank.domain.model.output.TransactionHistoricResult
 import fr.bank.domain.model.output.WithdrawResult
@@ -23,8 +23,10 @@ class TransactionServiceTest {
     inner class MakeDepositTest {
         @Test
         fun `should succeed when depositing into a valid account`() {
-            every { repository.getByAccountNumber("1") } returns BankAccount("1", balance = Balance(0.0))
-            every { repository.save(any()) } returns BankAccount("1", balance = Balance(100.0))
+            every { repository.getByAccountNumber("1") } returns BankAccountBuilder().accountNumber(accountNumber = "1").build()
+            every {
+                repository.save(any())
+            } returns BankAccountBuilder().accountNumber(accountNumber = "1").buildWithAddAmount(amount = Amount(value = 100.0))
 
             givenADepositRequest()
                 .withAAccountNumber()
@@ -71,8 +73,10 @@ class TransactionServiceTest {
     inner class MakeWithdrawTest {
         @Test
         fun `should succeed when withdrawing from a valid account with sufficient balance`() {
-            every { repository.getByAccountNumber("1") } returns BankAccount("1", balance = Balance(100.0))
-            every { repository.save(any()) } returns BankAccount("1", balance = Balance(0.0))
+            every {
+                repository.getByAccountNumber("1")
+            } returns BankAccountBuilder().accountNumber(accountNumber = "1").buildWithAddAmount(amount = Amount(value = 100.0))
+            every { repository.save(any()) } returns BankAccountBuilder().accountNumber(accountNumber = "1").build()
 
             givenAWithDrawRequest()
                 .withAAccountNumber()
@@ -82,7 +86,9 @@ class TransactionServiceTest {
 
         @Test
         fun `should fail when withdrawing an amount larger than the balance`() {
-            every { repository.getByAccountNumber("1") } returns BankAccount("1", balance = Balance(100.0))
+            every {
+                repository.getByAccountNumber("1")
+            } returns BankAccountBuilder().accountNumber(accountNumber = "1").buildWithAddAmount(amount = Amount(value = 100.0))
 
             givenAWithDrawRequest()
                 .withAAccountNumber()
@@ -168,7 +174,7 @@ class TransactionServiceTest {
         }
 
         private fun givenABankAccountWithBalance() {
-            bankAccount = BankAccount("1", balance = Balance(value = 0.0))
+            bankAccount = BankAccountBuilder().accountNumber(accountNumber = "1").build()
             every { repository.getByAccountNumber("1") } returns bankAccount
             every { repository.save(any()) } returns bankAccount
 

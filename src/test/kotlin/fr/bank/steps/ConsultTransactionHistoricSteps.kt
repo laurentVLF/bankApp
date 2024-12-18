@@ -2,10 +2,8 @@ package fr.bank.steps
 
 import fr.bank.api.output.TransactionHistoricDto
 import fr.bank.domain.model.Amount
-import fr.bank.domain.model.Balance
-import fr.bank.domain.model.BankAccount
+import fr.bank.domain.model.BankAccountBuilder
 import fr.bank.domain.model.OperationEnum
-import fr.bank.domain.model.TransactionHistoric
 import fr.bank.domain.repository.BankAccountRepository
 import fr.bank.infrastructure.repository.InMemoryBankAccountRepository
 import fr.bank.steps.configuration.TestApplicationManager
@@ -28,20 +26,10 @@ class ConsultTransactionHistoricSteps : KoinTest, En {
 
     init {
         Before { _ ->
+            val bankAccount = BankAccountBuilder().accountNumber(accountNumber = "4").buildWithAddAmount(amount = Amount(value = 100.0))
             repository = KoinJavaComponent.getKoin().get<BankAccountRepository>() as InMemoryBankAccountRepository
             repository.addAccount(
-                BankAccount(
-                    accountNumber = "4",
-                    balance = Balance(value = 100.0),
-                    transactionHistoric =
-                        mutableListOf(
-                            TransactionHistoric(
-                                amount = Amount(value = 100.0),
-                                balance = Balance(value = 100.0),
-                                operationType = OperationEnum.DEPOSIT,
-                            ),
-                        ),
-                ),
+                bankAccount = bankAccount,
             )
         }
         After { _ ->
