@@ -30,6 +30,8 @@ val koinVersion: String by project
 val cucumberVersion: String by project
 val junitVersion: String by project
 val kotlinSerializationVersion: String by project
+val mockkVersion: String by project
+val slf4jVersion: String by project
 
 group = "fr.bank"
 version = "1.0-SNAPSHOT"
@@ -55,6 +57,16 @@ tasks.register<JavaExec>("cucumber") {
         )
 }
 
+tasks.jar {
+    manifest {
+        attributes(
+            "Main-Class" to "fr.bank.MainKt",
+        )
+    }
+    from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
 dependencies {
     implementation(kotlin("stdlib"))
     implementation("io.ktor:ktor-server-core-jvm")
@@ -62,7 +74,7 @@ dependencies {
     implementation("io.ktor:ktor-serialization-jackson-jvm")
     implementation("io.ktor:ktor-server-default-headers-jvm")
     implementation("io.ktor:ktor-server-netty-jvm")
-    implementation("org.slf4j:slf4j-api:2.0.12")
+    implementation("org.slf4j:slf4j-api:$slf4jVersion")
 
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
 
@@ -83,7 +95,7 @@ dependencies {
     testImplementation("io.insert-koin:koin-test:$koinVersion")
 
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
-    testImplementation("io.mockk:mockk:1.13.7")
+    testImplementation("io.mockk:mockk:$mockkVersion")
 
     // Junit
     testImplementation("io.kotest:kotest-runner-junit5-jvm:$junitVersion")
