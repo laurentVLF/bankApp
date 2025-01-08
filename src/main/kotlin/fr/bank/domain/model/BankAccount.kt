@@ -50,7 +50,7 @@ class BankAccount(
         }
     }
 
-    fun getBalance(): Balance = calculateBalance()
+    private fun getBalance(): Balance = calculateBalance()
 
     fun getHistoricByAccountNumber(): List<TransactionHistory> = transactionHistory
 }

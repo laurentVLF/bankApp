@@ -6,6 +6,7 @@
 - [Installation](#installation)
 - [Running Project](#running-project)
 - [Running Tests](#running-tests)
+- [Running Dockerfile](#running-dockerfile)
 - [Project Architecture](#project-architecture)
 - [Technologies used](#technologies-used)
 
@@ -42,14 +43,14 @@ It also applies the principles of Domain-Driven Design (DDD) for the project arc
    ./gradlew build
 
 ## Check code style errors
-./gradlew ktlintCheck
+   ./gradlew ktlintCheck
 
 ## Fix code style errors
-./gradlew ktlintFormat
+   ./gradlew ktlintFormat
 
 ## Running project
 
-./gradlew run
+   ./gradlew run
 
 ## Running Tests
 
@@ -61,8 +62,21 @@ It also applies the principles of Domain-Driven Design (DDD) for the project arc
 
    ./gradlew cucumber
 
+## Running Dockerfile
+   1. Build :
+   ```bash 
+     docker build -t mybankapp:latest .
+   ```
+   2. Run :
+   ```bash 
+      docker run -d -p 8080:8080 mybankapp:latest
+   ```
+
 ## Project architecture
 ```plaintext
+   infra
+   ├── ECR                             # AWS Registry docker configuration
+   ├── EC2                             # EC2 instance configuration
    src
    ├── main
    │   ├── kotlin
@@ -73,12 +87,12 @@ It also applies the principles of Domain-Driven Design (DDD) for the project arc
    │   └── resources
    │       └── logback.xml             # Logs file configuration
    └── test
-      ├── kotlin
-      │   ├── fr.bank
-      │   │   ├── steps                 # Cucumber Tests
-      │   │   └── service               # Service Tests
-      └── resources
-          └── features                  # Scenaries Gherkin for Cucumber
+       ├── kotlin
+       │   ├── fr.bank
+       │   │   ├── steps               # Cucumber Tests
+       │   │   └── service             # Service Tests
+       └── resources
+           └── features                # Scenaries Gherkin for Cucumber
 ```
 ## Technologies Used
 
@@ -88,3 +102,6 @@ It also applies the principles of Domain-Driven Design (DDD) for the project arc
    - MockK: Mock framework for unit tests.
    - JUnit 5: Test framework.
    - Cucumber: Behavioral testing framework (BDD).
+   - Docker: Containerization.
+   - Aws : Cloud solution EC2 et ECR.
+   - Terraform: Infra as code.

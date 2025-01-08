@@ -16,6 +16,13 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 
+### terraform ###
+infra/terraform.tfstate
+infra/terraform.tfstate.backup
+infra/*.tfstate
+infra/*.tfstate.*
+infra/.terraform
+
 ### Kotlin ###
 .kotlin
 
