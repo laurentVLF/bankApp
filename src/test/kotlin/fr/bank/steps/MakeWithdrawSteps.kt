@@ -44,7 +44,7 @@ class MakeWithdrawSteps : KoinTest, En {
     @When("I send POST request to {string} for withdraw")
     fun iSendPOSTRequestToForWithdraw(path: String) {
         response =
-            TestApplicationManager.sendGetRequest(
+            TestApplicationManager.sendRequest(
                 path = path,
                 httpMethod = HttpMethod.Post,
                 type = OperationEnum.WITHDRAWAL,

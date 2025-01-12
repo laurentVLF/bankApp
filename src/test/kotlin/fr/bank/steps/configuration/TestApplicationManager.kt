@@ -55,7 +55,7 @@ object TestApplicationManager {
     }
 
     @JvmStatic
-    fun sendGetRequest(
+    fun sendRequest(
         path: String,
         httpMethod: HttpMethod,
         type: OperationEnum? = null,

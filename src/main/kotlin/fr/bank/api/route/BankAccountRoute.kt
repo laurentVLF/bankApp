@@ -4,8 +4,10 @@ import fr.bank.api.input.DepositRequest
 import fr.bank.api.input.WithdrawRequest
 import fr.bank.api.output.AmountDto
 import fr.bank.api.output.BalanceDto
+import fr.bank.api.output.DepositResponse
 import fr.bank.api.output.TransactionHistoricDto
 import fr.bank.api.output.TransactionHistoricResponse
+import fr.bank.api.output.WithdrawResponse
 import fr.bank.domain.model.Amount
 import fr.bank.domain.model.Balance
 import fr.bank.domain.model.TransactionHistory
@@ -40,8 +42,8 @@ fun Route.bankAccountRoute() {
                     is DepositResult.Error -> {
                         val error =
                             errorHandler(response.exception) { message, httpStatusCode ->
-                                TransactionHistoricResponse.Error(error = message, status = httpStatusCode)
-                            } as TransactionHistoricResponse.Error
+                                DepositResponse.Error(error = message, status = httpStatusCode)
+                            } as DepositResponse.Error
                         call.respond(
                             status = error.status,
                             message = error.error,
@@ -67,8 +69,8 @@ fun Route.bankAccountRoute() {
                     is WithdrawResult.Error -> {
                         val error =
                             errorHandler(response.exception) { message, httpStatusCode ->
-                                TransactionHistoricResponse.Error(error = message, status = httpStatusCode)
-                            } as TransactionHistoricResponse.Error
+                                WithdrawResponse.Error(error = message, status = httpStatusCode)
+                            } as WithdrawResponse.Error
                         call.respond(
                             status = error.status,
                             message = error.error,

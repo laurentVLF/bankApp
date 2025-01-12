@@ -44,7 +44,7 @@ class MakeDepositSteps : KoinTest, En {
     @When("I send POST request to {string} for deposit")
     fun iSendPOSTRequestToForDeposit(path: String) {
         response =
-            TestApplicationManager.sendGetRequest(
+            TestApplicationManager.sendRequest(
                 path = path,
                 httpMethod = HttpMethod.Post,
                 type = OperationEnum.DEPOSIT,

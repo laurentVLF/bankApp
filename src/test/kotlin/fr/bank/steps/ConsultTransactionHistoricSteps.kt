@@ -42,7 +42,7 @@ class ConsultTransactionHistoricSteps : KoinTest, En {
 
     @When("I send GET request to {string}")
     fun iSendGETRequestTo(path: String) {
-        response = TestApplicationManager.sendGetRequest(path = path, httpMethod = HttpMethod.Get)
+        response = TestApplicationManager.sendRequest(path = path, httpMethod = HttpMethod.Get)
     }
 
     @Then("The response status should be {int} for get the transaction historic")
